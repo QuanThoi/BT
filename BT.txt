@@ -1,0 +1,766 @@
+#include "stdafx.h"
+#include "ConNguoi.h"
+
+using namespace std;
+
+ConNguoi::ConNguoi()
+{
+	MaSo = 0;
+	strcpy_s(HoTen,"");
+	strcpy_s(GioiTinh,"");
+}
+
+ConNguoi::~ConNguoi()
+{
+}
+
+void ConNguoi::NhapCN()
+{
+	cout<<" => Nhap So CMND: ";cin>>MaSo;
+	cout<<" => Nhap Ho Ten: ";cin.ignore();cin.get(HoTen,50);
+	cout<<" => Nhap Gioi Tinh: ";cin>>GioiTinh;
+}
+
+void ConNguoi::XuatCN()
+{
+	cout<<MaSo<<"\t"<<HoTen<<"\t"<<GioiTinh;
+}
+
+
+ConNguoi & ConNguoi::operator=(const ConNguoi & cn)
+{
+	MaSo = cn.MaSo;
+	strcpy_s(HoTen,cn.HoTen);
+	strcpy_s(GioiTinh,cn.GioiTinh);
+	return * this;
+}
+
+
+
+#include "stdafx.h"
+#include "DoAn.h"
+
+using namespace std;
+
+
+DoAn::DoAn()
+{
+	strcpy_s(MaDoAn,"");
+	strcpy_s(TenDoAn,"");
+	SoLuong = 0;
+	strcpy_s(LinhVuc,"");
+	strcpy_s(YeuCau,"");
+	NgayTH = ThangTH = NamTH = 0;
+}
+
+DoAn::~DoAn()
+{
+}
+
+void DoAn::NhapDA()
+{
+	cout<<" => Nhap Ma Do An: ";cin>>MaDoAn;
+	cout<<" => Nhap Ten Do An: ";fflush(stdin);gets_s(TenDoAn);
+	cout<<" => Nhap So Luong: ";cin>>SoLuong;
+	cout<<" => Nhap Linh Vuc: ";fflush(stdin);gets_s(LinhVuc);
+	cout<<" => Nhap Yeu Cau: ";fflush(stdin);gets_s(YeuCau);
+	cout<<" => Nhap Thoi Han(ngay/thang/nam): "<<endl;
+	cout<<"    => Nhap Ngay: ";cin>>NgayTH;
+	cout<<"    => Nhap Thang: ";cin>>ThangTH;
+	cout<<"    => Nhap Nam: ";cin>>NamTH;
+	cout<<endl;
+	cout<<"\n-------------------- Nhap Thong tin Sinh Vien Dang Ki Do An --------------------\n"<<endl;
+	for (int i = 0; i < Get_SL(); i++)
+	{
+		SV[i].NhapSV();
+		cout<<endl;
+	}
+}
+
+void DoAn::XuatDA()
+{
+	cout<<"\t"<<MaDoAn<<"\t"<<TenDoAn<<"\t"<<SoLuong<<"\t"<<LinhVuc<<"\t"<<YeuCau<<"\t"<<NgayTH<<"/"<<ThangTH<<"/"<<NamTH<<endl;
+	cout<<"\n--------------------- Thong tin Sinh Vien Dang Ki Do An ------------------------\n"<<endl;
+	for (int k = 0; k < Get_SL(); k++)
+	{
+		SV[k].XuatSV();
+		cout<<endl;
+	}
+}
+
+void DoAn::XuatDSSV()
+{
+	//cout<<"\n--------------------- Thong tin Sinh Vien Dang Ki Do An ------------------------\n"<<endl;
+	for (int k = 0; k < Get_SL(); k++)
+	{
+		SV[k].XuatSV();
+		cout<<endl;
+	}
+}
+
+void DoAn::XuatDSHD()
+{
+	cout<<"\n--------------------- Thong tin Sinh Vien Dang Ki Do An ------------------------\n"<<endl;
+	for (int k = 0; k < Get_SL(); k++)
+	{
+		SV[k].XuatSVHD();
+		cout<<endl;
+	}
+}
+
+void DoAn::XuatDSDA()
+{
+	cout<<"\t"<<MaDoAn<<"\t"<<TenDoAn<<"\t"<<SoLuong<<"\t"<<LinhVuc<<"\t"<<YeuCau<<"\t"<<NgayTH<<"/"<<ThangTH<<"/"<<NamTH<<endl;
+}
+
+void DoAn::KTDK()
+{
+	cout<<"\t"<<MaDoAn<<"\t"<<TenDoAn<<"\t"<<SoLuong<<"\t"<<LinhVuc<<"\t"<<YeuCau<<"\t"<<NgayTH<<"/"<<ThangTH<<"/"<<NamTH<<endl;
+	cout<<"\n--------------------- Thong tin Sinh Vien Dang Ki Do An ------------------------\n"<<endl;
+	for (int k = 0; k < Get_SL(); k++)
+	{
+		SV[k].XuatSV();
+		if(SV[k].Get_Ng()<NgayTH && SV[k].Get_T()<=ThangTH && SV[k].Get_N()<=NamTH || SV[k].Get_T()<ThangTH && SV[k].Get_N()<=NamTH || SV[k].Get_N()<NamTH)
+		cout<<"\n    => Dang Ki Thanh Cong !!!!"<<endl;
+		else
+		{
+		cout<<"\n    => Dang ki Khong Thanh Cong !!!"<<endl;
+		}
+		cout<<endl;
+	}
+
+}
+
+int DoAn::Get_SL()
+{
+	return SoLuong;
+}
+
+DoAn & DoAn::operator=(const DoAn & da)
+{
+	strcpy_s(MaDoAn,da.MaDoAn);
+	strcpy_s(TenDoAn,da.TenDoAn);
+	SoLuong = da.SoLuong;
+	strcpy_s(LinhVuc,da.LinhVuc);
+	strcpy_s(YeuCau,da.YeuCau);
+	NgayTH = da.NgayTH;
+	ThangTH = da.ThangTH;
+	NamTH = da.NamTH;
+	SV[50] = da.SV[50];
+	return * this;
+}
+
+
+
+#include "stdafx.h"
+#include "GiangVien.h"
+using namespace std;
+
+GiangVien::GiangVien()
+{
+	n = 0;
+	strcpy_s(ChuyenNganh,"");
+	strcpy_s(ChucVu,"");
+}
+
+GiangVien::~GiangVien()
+{
+}
+
+void GiangVien::NhapGV()
+{
+	ConNguoi::NhapCN();
+	Khoa::NhapK();
+	cout<<" => Nhap Chuyen Nganh (viet lien khong dau:cntt,stin,...): ";cin>>ChuyenNganh;
+	cout<<" => Nhap Chuc Vu: ";fflush(stdin);gets_s(ChucVu);
+	cout<<endl;
+	cout<<" => Nhap Vao So Luong Do An: ";cin>>n;
+	for (int j = 0; j < n; j++)
+	{
+		cout<<"\n---------------------------- Nhap vao Do An Thu "<<j+1<<" ------------------------------\n"<<endl;
+		DA[j].NhapDA();
+		cout<<endl;
+	}
+}
+
+void GiangVien::XuatGV()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	cout<<"\t"<<ChuyenNganh<<"\t"<<ChucVu<<endl;
+	for (int j = 0; j < n; j++)
+	{
+		cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+		DA[j].XuatDA();
+		cout<<endl;
+	}
+}
+
+void GiangVien::XuatDSGV()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	cout<<"\t"<<ChuyenNganh<<"\t"<<ChucVu<<endl;
+	for (int j = 0; j < n; j++)
+	{
+		cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+		DA[j].XuatDA();
+		cout<<endl;
+	}
+
+}
+
+void GiangVien::XuatDSSVDK()
+{
+	for (int j = 0; j < n; j++)
+	{
+		//cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+		DA[j].XuatDSSV();
+		cout<<endl;
+	}
+}
+
+void GiangVien::XuatDSCNTT()
+{
+	for (int j = 0; j < n; j++)
+	{
+			//cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+			DA[j].XuatDSSV();
+			cout<<endl;
+	}
+}
+
+void GiangVien::XuatDSDK()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	cout<<"\t"<<ChuyenNganh<<"\t"<<ChucVu<<endl;
+	//for (int j = 0; j < n; j++)
+	//{
+	//	cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+	//	DA[j].XuatDSDA();
+	//	cout<<endl;
+	//}
+	
+}
+
+void GiangVien::XuatSLDK()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	cout<<"\t"<<ChuyenNganh<<"\t"<<ChucVu<<endl;
+	cout<<" => So Luong: "<<DemSL()<<endl;
+}
+
+void GiangVien::XuatDSKT()
+{
+	for (int j = 0; j < n; j++)
+	{
+			cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+			DA[j].KTDK();
+			cout<<endl;
+	}
+}
+
+int GiangVien::DemSL()
+{
+	int TongSL = 0;
+	for (int j = 0; j < n; j++)
+	{
+		TongSL += DA[j].Get_SL();
+	}
+	return TongSL;
+}
+
+void GiangVien::XuatDSQTHD()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	cout<<"\t"<<ChuyenNganh<<"\t"<<ChucVu<<endl;
+	for (int j = 0; j < n; j++)
+	{
+			//cout<<"\n--------------------------------- Do An Thu "<<j+1<<"-----------------------------------\n"<<endl;
+			DA[j].XuatDSHD();
+			cout<<endl;
+	}
+
+}
+
+bool GiangVien::SoSanhCN()
+{
+	_strlwr_s(ChuyenNganh);
+	return !strcmp(ChuyenNganh,"cntt");
+}
+
+bool GiangVien::Get_SSK()
+{
+	return SoSanhK();
+}
+
+GiangVien & GiangVien::operator=(const GiangVien & gv)
+{
+	strcpy_s(ChuyenNganh,gv.ChuyenNganh);
+	strcpy_s(ChucVu,gv.ChucVu);
+	DA[50]=gv.DA[50];
+	return * this;
+}
+
+
+#include "stdafx.h"
+#include "HuongDan.h"
+
+using namespace std;
+
+
+HuongDan::HuongDan()
+{
+	NgayHD = ThangHD = NamHD = 0;
+	strcpy_s(DiaDiem,"");
+	strcpy_s(NoiDung,"");
+}
+
+HuongDan::~HuongDan()
+{
+}
+
+void HuongDan::NhapHD()
+{
+	cout<<" => Nhap Thoi Gian Huong Dan(ngay/thang/nam): "<<endl;
+	cout<<"    => Nhap Ngay: ";cin>>NgayHD;
+	cout<<"    => Nhap Thang: ";cin>>ThangHD;
+	cout<<"    => Nhap Nam: ";cin>>NamHD;
+	cout<<" => Nhap Dia Diem: ";fflush(stdin);gets_s(DiaDiem);
+	cout<<" => Nhap Noi Dung: ";fflush(stdin);gets_s(NoiDung);
+}
+
+void HuongDan::XuatHD()
+{
+	cout<<"\n\t"<<NgayHD<<"/"<<ThangHD<<"/"<<NamHD<<"\t"<<DiaDiem<<"\t"<<NoiDung<<endl;
+}
+
+HuongDan & HuongDan :: operator= (const HuongDan & hd)
+{
+	NgayHD = hd.NgayHD;
+	ThangHD = hd.ThangHD;
+	NamHD = hd.NamHD;
+	strcpy_s(NoiDung,hd.NoiDung);
+	strcpy_s(DiaDiem,hd.DiaDiem);
+	return * this;
+}
+
+#include "stdafx.h"
+#include "Khoa.h"
+
+using namespace std;
+
+Khoa::Khoa()
+{
+	strcpy_s(MaKhoa,"");
+	strcpy_s(TenKhoa,"");
+}
+
+Khoa::~Khoa()
+{
+}
+
+void Khoa::NhapK()
+{
+	cout<<" => Nhap Ma Khoa: ";cin>>MaKhoa;
+	cout<<" => Nhap Ten Khoa: ";fflush(stdin);gets_s(TenKhoa);
+}
+
+void Khoa::XuatK()
+{
+	cout<<"\t"<<MaKhoa<<"\t"<<TenKhoa;
+}
+
+bool Khoa::SoSanhK()
+{
+	_strlwr_s(TenKhoa);
+	return !strcmp(TenKhoa,"su pham toan tin");
+}
+
+Khoa & Khoa::operator=(const Khoa & k)
+{
+	strcpy_s(MaKhoa,k.MaKhoa);
+	strcpy_s(TenKhoa,k.TenKhoa);
+	return * this;
+}
+
+
+#include "stdafx.h"
+#include "Lop.h"
+
+using namespace std;
+
+Lop::Lop()
+{
+	strcpy_s(MaLop,"");   
+	strcpy_s(TenLop,"");
+}
+
+Lop::~Lop()
+{
+}
+
+void Lop::NhapL()
+{
+	cout<<" => Nhap Ma Lop: ";cin>>MaLop;
+	cout<<" => Nhap Ten Lop: ";cin>>TenLop;
+}
+
+void Lop::XuatL()
+{
+	cout<<"\t"<<MaLop<<"\t"<<TenLop;
+}
+
+Lop & Lop::operator=(const Lop & l)
+{
+	strcpy_s(MaLop,l.MaLop);
+	strcpy_s(TenLop,l.TenLop);
+	return * this;
+}
+
+
+#include "stdafx.h"
+#include "QLDoAn.h"
+
+using namespace std;
+
+
+QLDoAn::QLDoAn()
+{
+	n = m[10] = 0;
+	GV = new GiangVien[50];
+	DA = new DoAn[100];
+	SV = new SinhVien[200];
+}
+
+QLDoAn::~QLDoAn()
+{
+	delete [] GV;
+	delete [] DA;
+	delete [] SV;
+}
+
+void QLDoAn::NhapQL()
+{
+	cout<<"Nhap So luong GV :";cin>>n;
+
+	cout<<"\nNHAP VAO TT DS\n"<<endl;
+	for (int i = 0; i < n ; i++)
+	{
+		cout<<"Nhap Thong tin cua GV thu "<<i+1<<endl;
+		GV[i].NhapGV();
+		cout<<endl;
+		cout<<"Nhap vao So Luong Do An Cua GV thu "<<i+1<<endl;
+		cin>>m[i];
+		for (int j = 0; j < m[i]; j++)
+		{
+			cout<<"Nhap Thong Tin Do An thu "<<j+1<<endl;
+			DA[j].NhapDA();
+			cout<<endl;
+			for (int k = 0; k < DA[j].Get_SL(); k++)
+			{
+				cout<<"Nhap Thong Tin Sinh Vien Thu "<<i+1<<endl;
+				SV[i].NhapSV();
+				cout<<endl;
+			}
+		}
+	}
+}
+
+void QLDoAn::XuatQL()
+{
+	cout<<"\nTHONG TIN DS\n"<<endl;
+	for (int i = 0; i < n; i++)
+	{
+		cout<<"Thong tin cua GV thu "<<i+1<<endl;
+		GV[i].XuatGV();
+		cout<<endl;
+		for (int j = 0; j < m[i]; j++)
+		{
+			cout<<"Thong Tin Do An thu "<<j+1<<endl;
+			DA[j].XuatDA();
+			cout<<endl;
+			for (int k = 0; k < DA[j].Get_SL(); k++)
+			{
+				cout<<"Thong Tin Sinh Vien Thu "<<i+1<<endl;
+				SV[i].XuatSV();
+				cout<<endl;
+			}
+		}
+	}
+}
+
+QLDoAn & QLDoAn::operator=(const QLDoAn & qlda)
+{
+	GV=qlda.GV;
+	DA=qlda.DA;
+	SV=qlda.SV;
+	n = qlda.n;
+	m[10]= qlda.m[10];
+	return * this;
+}
+
+
+#include "stdafx.h"
+#include "SinhVien.h"
+
+using namespace std;
+
+SinhVien::SinhVien()
+{
+	NamNhapHoc = 0;
+}
+
+SinhVien::~SinhVien()
+{
+}
+
+void SinhVien::NhapSV()
+{
+	ConNguoi::NhapCN();
+	Khoa::NhapK();
+	Lop::NhapL();
+	cout<<" => Nhap Nam Nhap Hoc: ";cin>>NamNhapHoc;
+	ThoiGianDK::NhapTGDK();
+	HuongDan::NhapHD();
+}
+
+void SinhVien::XuatSV()
+{
+	ConNguoi::XuatCN();
+	Khoa::XuatK();
+	Lop::XuatL();
+	cout<<"\t"<<2017 - NamNhapHoc;
+	ThoiGianDK::XuatTGDK();
+}
+
+void SinhVien::XuatSVHD()
+{
+	ConNguoi::XuatCN();
+	Lop::XuatL();
+	cout<<"\t"<<2017 - NamNhapHoc;
+	ThoiGianDK::XuatTGDK();
+	HuongDan::XuatHD();
+}
+
+int SinhVien::Get_Ng()
+{
+	return Get_NgDK();
+}
+
+int SinhVien::Get_T()
+{
+	return Get_TDK();
+}
+
+int SinhVien::Get_N()
+{
+	return Get_NDK();
+}
+
+SinhVien & SinhVien::operator=(const SinhVien & sv)
+{
+	NamNhapHoc = sv.NamNhapHoc;
+	return * this;
+}
+
+// BtNhom.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "GiangVien.h"
+
+using namespace std;
+
+void Nhap(GiangVien  *dsgv,int m)// cau b
+{
+	cout<<"\n----------------------------NHAP THONG TIN DANH SACH----------------------------\n"<<endl;
+	for (int i = 0; i < m;	i++)
+	{
+		cout<<"\n------------------------ Nhap Thong tin Giang vien Thu "<<i+1<<" -----------------------\n"<<endl;
+		dsgv[i].NhapGV();
+		cout<<endl;
+	}
+}
+
+void Xuat(GiangVien *dsgv,int m) // cau b
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		cout<<"\n-------------------------- Thong tin Giang vien Thu "<<i+1<<" --------------------------\n"<<endl;
+		dsgv[i].XuatGV();
+		cout<<endl;
+	}
+}
+
+void XuatDS(GiangVien *dsgv,int m)// cau c
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		dsgv[i].XuatDSDK();
+		cout<<endl;
+	}
+}
+
+void XuatDSSVDK(GiangVien *dsgv, int m) //cau d
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		dsgv[i].XuatDSSVDK();
+		cout<<endl;
+	}
+}
+
+void XuatDSCNTT(GiangVien *dsgv,int m)// cau e
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		if(dsgv[i].SoSanhCN()==true)
+		{
+			dsgv[i].XuatDSCNTT();
+			cout<<endl;
+		}
+	}
+}
+
+void XuatDSK(GiangVien *dsgv, int m)// cau f
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		if(dsgv[i].Get_SSK()==true)
+		dsgv[i].XuatDSDK();
+		cout<<endl;
+	}
+}
+
+void XuatDSSL(GiangVien *dsgv, int m)// cau g
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		dsgv[i].XuatSLDK();
+		cout<<endl;
+	}
+}
+
+void XuatDSKQDK(GiangVien *dsgv, int m) //cau i
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		dsgv[i].XuatDSKT();
+		cout<<endl;
+	}
+
+}
+
+void XuatDSQTGVHD(GiangVien *dsgv, int m)
+{
+	cout<<"\n------------------------------THONG TIN DANH SACH-------------------------------\n"<<endl;
+	for (int i = 0; i < m; i++)
+	{
+		dsgv[i].XuatDSQTHD();
+		cout<<endl;
+	}
+}
+
+void Choose(GiangVien *dsgv, int m,int c)
+{
+	switch (c)
+	{
+	case 1:
+		{
+			XuatDS(dsgv,m);
+			break;
+		}
+	case 2:
+		{
+			XuatDSSVDK(dsgv,m);
+			break;
+		}
+	case 3:
+		{
+			XuatDSCNTT(dsgv,m);
+			break;
+		}
+	case 4:
+		{
+			XuatDSK(dsgv,m);
+			break;
+		}
+	case 5:
+		{
+			XuatDSSL(dsgv,m);
+			break;
+		}
+	case 6:
+		{
+			
+			break;
+		}
+	case 7:
+		{
+			XuatDSKQDK(dsgv,m);
+			break;
+		}
+	case 8:
+		{
+			XuatDSQTGVHD(dsgv,m);
+			break;
+		}
+	case 9:
+		{
+			exit(0);		
+		}
+	default:
+		{
+			cout<<"\n\t\t\t??? KO TIM THAY YEU CAU ???\n"<<endl;
+			break;
+		}
+	}
+}
+
+void Menu(GiangVien *dsgv, int m, int c)
+{
+	cout<<"\n\t\t\t----------Menu----------\n"<<endl;
+	cout<<"1. Danh Sach Giang Vien ra Do An Mon Hoc"<<endl;
+	cout<<"2. Danh Sach Sinh Vien Dang Ki Do An"<<endl;
+	cout<<"3. Danh Sach Sinh Vien Dang Ki Do An Chuyen Nganh CNTT"<<endl;
+	cout<<"4. Danh Sach Giang Vien Khoa Su Pham Toan Tin ra Do An"<<endl;
+	cout<<"5. So Luong Sinh Vien Huong Dan cua Moi Giang Vien"<<endl;
+	cout<<"6. Bí"<<endl;
+	cout<<"7. Tinh Trang Dang Ki Do An cua Sinh Vien"<<endl;
+	cout<<"8. Qua Trinh Huong dan Thuc Hien Cua Tung Giang Vien va Sinh Vien"<<endl;
+	cout<<"9. Thoat"<<endl;
+	cout<<"=>>Nhap vao Cong Viec: ";cin>>c;
+	system("cls");
+	Choose(dsgv,m,c);
+}
+
+int main()
+{
+	int m,c=0;
+	cout<<"Nhap vao so luong Giang Vien: ";cin>>m;
+	GiangVien *dsgv = new GiangVien[m];
+
+	Nhap(dsgv,m);
+
+	system("cls");
+
+	Xuat(dsgv,m);
+	do
+	{
+		Menu(dsgv,m,c);
+	} while (c<=0);
+	_getch();
+	return 0;
+}
+
